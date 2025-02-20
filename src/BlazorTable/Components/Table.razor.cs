@@ -140,9 +140,20 @@ namespace BlazorTable
         /// </summary>
         private List<CustomRow<TableItem>> CustomRows { get; set; } = new List<CustomRow<TableItem>>();
 
+        private bool _needsToCallbackOnNewPageRendered = false;
+
         protected override async Task OnParametersSetAsync()
         {
             await UpdateAsync().ConfigureAwait(false);
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (_needsToCallbackOnNewPageRendered)
+            {
+                _needsToCallbackOnNewPageRendered = false;
+                await OnNewPageRendered.InvokeAsync(null).ConfigureAwait(false); ;
+            }
         }
 
         private IEnumerable<TableItem> GetData()
@@ -296,6 +307,7 @@ namespace BlazorTable
             {
                 PageNumber = 0;
                 detailsViewOpen.Clear();
+                _needsToCallbackOnNewPageRendered = true;
                 await UpdateAsync().ConfigureAwait(false);
             }
         }
@@ -309,6 +321,7 @@ namespace BlazorTable
             {
                 PageNumber++;
                 detailsViewOpen.Clear();
+                _needsToCallbackOnNewPageRendered = true;
                 await UpdateAsync().ConfigureAwait(false);
             }
         }
@@ -322,6 +335,7 @@ namespace BlazorTable
             {
                 PageNumber--;
                 detailsViewOpen.Clear();
+                _needsToCallbackOnNewPageRendered = true;
                 await UpdateAsync().ConfigureAwait(false);
             }
         }
@@ -333,6 +347,7 @@ namespace BlazorTable
         {
             PageNumber = TotalPages - 1;
             detailsViewOpen.Clear();
+            _needsToCallbackOnNewPageRendered = true;
             await UpdateAsync().ConfigureAwait(false);
         }
 
@@ -568,6 +583,10 @@ namespace BlazorTable
         /// </summary>
         [Parameter]
         public bool ShowChildContentAtTop { get; set; }
+
+        /// <inheritdoc/>>
+        [Parameter]
+        public EventCallback OnNewPageRendered { get; set; }
 
     }
 }

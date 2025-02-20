@@ -584,6 +584,9 @@
             Show table child content at the top of the table.
             </summary>
         </member>
+        <member name="P:BlazorTable.Table`1.OnNewPageRendered">
+            <inheritdoc/>>
+        </member>
         <member name="T:BlazorTable.IColumn`1">
             <summary>
             Table Column
@@ -898,6 +901,11 @@
             Set Table Page Size
             </summary>
             <param name="pageSize"></param>
+        </member>
+        <member name="P:BlazorTable.ITable.OnNewPageRendered">
+            <summary>
+            Event called after a new page content is rendered
+            </summary>
         </member>
         <member name="T:BlazorTable.ITable`1">
             <summary>

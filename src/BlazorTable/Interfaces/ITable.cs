@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Components;
+
 namespace BlazorTable
 {
     /// <summary>
@@ -138,5 +140,10 @@ namespace BlazorTable
         /// </summary>
         /// <param name="pageSize"></param>
         Task SetPageSizeAsync(int pageSize);
+
+        /// <summary>
+        /// Event called after a new page content is rendered
+        /// </summary>
+        EventCallback OnNewPageRendered { get; set; }
     }
 }
